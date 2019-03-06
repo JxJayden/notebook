@@ -6,7 +6,7 @@ import stroge from './utils/stroge';
 
 Vue.config.productionTip = false;
 
-const isSupportStroge = !stroge.isSupport();
+const isSupportStroge = stroge.isSupport();
 
 if (!isSupportStroge) {
   alert('您的浏览器暂不支持 localStroge，请更换浏览器使用。');
