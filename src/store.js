@@ -66,6 +66,16 @@ export default new Vuex.Store({
     },
     addNote({ commit, state }, note) {
       commit(UPDATE_NOTES, [{ ...note }, ...state.notes]);
+    },
+    deleteNote({ commit, state }, note) {
+      const { id } = note;
+      const notes = state.notes;
+      const newNotes = [...notes];
+      const noteIndex = notes.findIndex(note => note.id === id);
+      if (noteIndex !== -1) {
+        newNotes.splice(noteIndex, 1);
+        commit(UPDATE_NOTES, newNotes);
+      }
     }
   },
   getters: {

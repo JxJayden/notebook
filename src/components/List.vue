@@ -5,7 +5,9 @@
       v-for="item in list"
       :key="item.id"
       :to="{ name: 'edit', query: { id: item.id } }"
-    >{{ item.content }} {{item.date | dateFormat}}</router-link>
+    >{{ item.content }} {{item.date | dateFormat}}
+    <button @click.stop="deleteNote(item)" class="deleteButton">删除</button>
+    </router-link>
   </ul>
 </template>
 
@@ -24,6 +26,11 @@ export default {
     dateFormat(dateTime) {
       if (Number.isNaN(dateTime) || typeof dateTime !== 'number') return '';
       return new Date(dateTime).toLocaleString();
+    }
+  },
+  methods: {
+    deleteNote(note) {
+      this.$store.dispatch('deleteNote', note);
     }
   }
 };
