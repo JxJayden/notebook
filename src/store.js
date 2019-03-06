@@ -1,15 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import stroge from '@/utils/stroge';
-import { STROGE_KEY } from '@/constants';
+import storage from '@/utils/storage';
+import { STORAGE_KEY } from '@/constants';
 
 // mutation-types
 const UPDATE_NOTES = 'UPDATE_NOTES';
 
-function strogePlugin(store) {
+function storagePlugin(store) {
   try {
-    const notes = JSON.parse(stroge.read(STROGE_KEY.NOTES));
-    const draft = JSON.parse(stroge.read(STROGE_KEY.DRAFT));
+    const notes = JSON.parse(storage.read(STORAGE_KEY.NOTES));
+    const draft = JSON.parse(storage.read(STORAGE_KEY.DRAFT));
     const state = store.state;
     store.replaceState({
       notes: notes && Array.isArray(notes) ? notes : state.notes,
@@ -19,7 +19,7 @@ function strogePlugin(store) {
 
   store.subscribe((mutation, state) => {
     if (mutation.type === UPDATE_NOTES) {
-      stroge.write('notes', JSON.stringify(state.notes));
+      storage.write('notes', JSON.stringify(state.notes));
     }
   });
 }
@@ -71,5 +71,5 @@ export default new Vuex.Store({
   getters: {
     getNoteById: state => id => state.notes.find(note => note.id === id)
   },
-  plugins: [strogePlugin]
+  plugins: [storagePlugin]
 });

@@ -1,4 +1,4 @@
-export const STROGE_KEY = {
+export const STORAGE_KEY = {
   NOTES: 'notes',
   DRAFT: 'draft'
 };

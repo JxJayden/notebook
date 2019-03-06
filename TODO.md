@@ -1,5 +1,5 @@
 ## 必做
-* [x] localStroge 封装
+* [x] localstorage 封装
 * [x] uuid 封装
 * [x] 列表页
 * [x] 编辑页
