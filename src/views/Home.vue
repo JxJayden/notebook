@@ -4,13 +4,13 @@
       <h1 class="home__header__title">记事本-记录生活</h1>
       <h2 class="home__header__subtitle">{{currentDate | subtitleDateFormat}}</h2>
     </header>
-    <List :list="notes" @delete="deleteNote"/>
+    <List :list="notes"/>
     <router-link tag="button" class="home__createButton" :to="{name: 'edit'}">添加笔记</router-link>
   </div>
 </template>
 
 <script>
-import { getNotes, deleteNote } from '@/utils/note';
+import { getNotes } from '@/utils/note';
 import List from '@/components/List.vue';
 
 export default {
@@ -18,20 +18,12 @@ export default {
   components: { List },
   data() {
     return {
-      notes: [],
       currentDate: new Date()
     };
   },
-  created() {
-    this.getNotes();
-  },
-  methods: {
-    deleteNote(note) {
-      deleteNote(note);
-      this.getNotes();
-    },
-    getNotes() {
-      this.notes = getNotes();
+  computed: {
+    notes() {
+      return getNotes();
     }
   },
   filters: {
