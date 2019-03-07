@@ -5,6 +5,11 @@ import storage from './utils/storage';
 
 Vue.config.productionTip = false;
 
+Vue.filter('dateFormat', function(dateTime) {
+  if (Number.isNaN(dateTime) || typeof dateTime !== 'number') return '';
+  return new Date(dateTime).toLocaleString();
+});
+
 const isSupportstorage = storage.isSupport();
 
 if (!isSupportstorage) {

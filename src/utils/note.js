@@ -21,6 +21,7 @@ export const setNotes = notes => {
   if (!notes || !Array.isArray(notes)) return;
   cacheNote = [...notes];
   storage.write(STORAGE_KEY.NOTES, JSON.stringify(notes));
+  return notes;
 };
 
 export const getNoteById = id => getNotes().find(note => note.id === id);
@@ -28,9 +29,9 @@ export const getNoteById = id => getNotes().find(note => note.id === id);
 export const updateNote = note => {
   const notes = getNotes();
   const id = note.id;
-  const updateNodeIndex = notes.findIndex(note => note.id === id);
-  if (updateNodeIndex !== -1) {
-    notes.splice(updateNodeIndex, 1);
+  const updateNoteIndex = notes.findIndex(note => note.id === id);
+  if (updateNoteIndex !== -1) {
+    notes.splice(updateNoteIndex, 1);
     notes.unshift({ ...note });
     setNotes(notes);
     return notes;
@@ -39,18 +40,13 @@ export const updateNote = note => {
   }
 };
 
-export const addNote = note => {
-  const notes = getNotes();
-  notes.unshift({ ...note });
-  setNotes(notes);
-  return notes;
-};
+export const addNote = note => setNotes(getNotes().unshift({ ...note }));
 
 export const deleteNote = ({ id }) => {
   const notes = getNotes();
-  const deleteNodeIndex = notes.findIndex(note => note.id === id);
-  if (deleteNodeIndex !== -1) {
-    notes.splice(deleteNodeIndex, 1);
+  const deleteNoteIndex = notes.findIndex(note => note.id === id);
+  if (deleteNoteIndex !== -1) {
+    notes.splice(deleteNoteIndex, 1);
     setNotes(notes);
   }
   return notes;

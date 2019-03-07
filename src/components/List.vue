@@ -9,7 +9,6 @@
     >
       <p class="item__title">{{ item.content | noteFormat}}</p>
       <time class="item__time">{{item.date | dateFormat}}</time>
-      <!-- <button @click.stop="deleteNote(item)" class="deleteButton">删除</button> -->
     </router-link>
   </ul>
 </template>
@@ -26,12 +25,8 @@ export default {
     }
   },
   filters: {
-    dateFormat(dateTime) {
-      if (Number.isNaN(dateTime) || typeof dateTime !== 'number') return '';
-      return new Date(dateTime).toLocaleString();
-    },
     noteFormat(content) {
-      return content.trim().length ? content.trim() : '空白笔记';
+      return content && content.trim().length ? content.trim() : '空白笔记';
     }
   },
   methods: {
