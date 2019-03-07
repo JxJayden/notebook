@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import store from './store';
 import storage from './utils/storage';
 
 Vue.config.productionTip = false;
@@ -13,7 +12,6 @@ if (!isSupportstorage) {
 } else {
   new Vue({
     router,
-    store,
     render: h => h(App)
   }).$mount('#app');
 }
