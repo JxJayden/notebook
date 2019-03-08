@@ -68,7 +68,7 @@ export default {
     deleteNote(cb) {
       try {
         deleteNote({ id: this.id });
-        cb && cb();
+        cb && typeof cb === 'function' && cb();
       } catch (error) {
         if (
           error.name === 'QUOTA_EXCEEDED_ERR' ||

@@ -94,8 +94,3 @@ table {
 input[type='date']::-webkit-clear-button {
     display: none;
 }
-
-.fix-table-bug .gutter {
-    width: 1px !important;
-    border-right: none !important;
-}

@@ -7,11 +7,7 @@
     <main class="home__main">
       <List :list="notes"/>
     </main>
-    <router-link
-      tag="button"
-      class="home__createButton"
-      :to="{name: 'edit'}"
-    >添加笔记</router-link>
+    <router-link tag="button" class="home__createButton" :to="{name: 'edit'}">添加笔记</router-link>
   </div>
 </template>
 
