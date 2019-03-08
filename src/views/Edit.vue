@@ -4,9 +4,10 @@
       <button class="edit__nav__deleteButton" @click="handleClickDelete"></button>
       <button class="edit__nav__saveButton" @click="handleClickSave">完成</button>
     </nav>
-    <time class="edit__date">{{date | dateFormat}}</time>
     <main class="edit__main" @click="focusTextarea">
+      <time class="edit__date">{{date | dateFormat}}</time>
       <textarea
+        placeholder="请输入笔记内容～"
         rows="1"
         class="edit__editor"
         ref="editor"
@@ -31,7 +32,7 @@ export default {
       oldContent: '',
       content: '',
       id: '',
-      date: null,
+      date: '',
       intervalTimer: null
     };
   },
@@ -41,6 +42,7 @@ export default {
   },
   mounted() {
     this.setEditorHeight();
+    this.focusTextarea();
   },
   beforeDestroy() {
     this.cancelSaveInterval();
@@ -151,6 +153,11 @@ export default {
 <style lang="scss" scoped>
 .edit {
   &__nav {
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 44px;
     background: #f5f5f5;
     display: flex;
@@ -177,15 +184,14 @@ export default {
     text-align: center;
   }
   &__main {
-    min-height: calc(100vh - 80px);
+    margin-top: 44px;
   }
   &__editor {
+    overflow-y: hidden;
     padding: 8px 15px;
     width: 100%;
-    overflow-y: hidden;
     font-size: 15px;
     color: #6d6c79;
-    overflow: auto;
     -webkit-overflow-scrolling: touch;
   }
 }
