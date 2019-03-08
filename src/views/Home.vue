@@ -4,8 +4,15 @@
       <h1 class="home__header__title">记事本-记录生活</h1>
       <h2 class="home__header__subtitle">{{currentDate | subtitleDateFormat}}</h2>
     </header>
-    <List :list="notes"/>
-    <router-link tag="button" class="home__createButton" :to="{name: 'edit'}">添加笔记</router-link>
+    <main class="home__main">
+      <List :list="notes"/>
+    </main>
+    <router-link
+      @click="console.log(1)"
+      tag="div"
+      class="home__createButton"
+      :to="{name: 'edit'}"
+    >添加笔记</router-link>
   </div>
 </template>
 
@@ -55,7 +62,12 @@ export default {
       font-weight: 400;
     }
   }
+  &__main {
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+  }
   &__createButton {
+    z-index: 999;
     width: 100%;
     position: fixed;
     left: 0;
