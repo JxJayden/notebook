@@ -1,5 +1,8 @@
 # notebook
 
+## Project Todo
+[Todo](./TODO.md)
+
 ## Project setup
 ```
 yarn install
