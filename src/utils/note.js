@@ -20,8 +20,8 @@ export const getNotes = () => {
 export const setNotes = notes => {
   if (!notes || !Array.isArray(notes)) return;
   cacheNote = [...notes];
-  storage.write(STORAGE_KEY.NOTES, JSON.stringify(notes));
-  return notes;
+  storage.write(STORAGE_KEY.NOTES, JSON.stringify(cacheNote));
+  return cacheNote;
 };
 
 export const getNoteById = id => getNotes().find(note => note.id === id);
@@ -40,7 +40,11 @@ export const updateNote = note => {
   }
 };
 
-export const addNote = note => setNotes(getNotes().unshift({ ...note }));
+export const addNote = note => {
+  const notes = getNotes();
+  notes.unshift({ ...note });
+  setNotes(notes);
+};
 
 export const deleteNote = ({ id }) => {
   const notes = getNotes();
