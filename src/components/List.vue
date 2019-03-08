@@ -8,7 +8,7 @@
       class="item"
     >
       <p class="item__title">{{ item.content | noteFormat}}</p>
-      <time class="item__time">{{item.date | dateFormat}}</time>
+      <time class="item__time">{{item.updateTime | dateFormat}}</time>
     </router-link>
   </ul>
 </template>

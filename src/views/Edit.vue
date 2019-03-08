@@ -58,7 +58,7 @@ export default {
         this.id = id;
         this.content = note.content;
         this.oldContent = note.content;
-        this.date = note.date;
+        this.date = note.updateTime;
       }
     },
     genNewNote() {
@@ -83,12 +83,10 @@ export default {
     updateNote(cb) {
       try {
         if (this.oldContent !== this.content) {
-          this.date = new Date().getTime();
           this.oldContent = this.content;
           updateNote({
             id: this.id,
-            content: this.content,
-            date: this.date
+            content: this.content
           });
         }
         cb && typeof cb === 'function' && cb();
