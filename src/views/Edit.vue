@@ -184,6 +184,7 @@ export default {
     text-align: center;
   }
   &__main {
+    min-height: calc(100vh - 50px);
     margin-top: 44px;
   }
   &__editor {
