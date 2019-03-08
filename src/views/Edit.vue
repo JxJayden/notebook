@@ -91,7 +91,6 @@ export default {
         }
         cb && typeof cb === 'function' && cb();
       } catch (error) {
-        console.log(error);
         if (
           error.name === 'QUOTA_EXCEEDED_ERR' ||
           error.name === 'NS_ERROR_DOM_QUOTA_REACHED'
