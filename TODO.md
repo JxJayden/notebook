@@ -14,5 +14,5 @@
 * [x] 移动端聚焦bug处理
 
 ## perf
-* [ ] 使用 IndexedDB 代替 localStorage
+* [x] 使用 IndexedDB 代替 localStorage
 * [ ] 添加笔记标题功能，使用第一行作为标题

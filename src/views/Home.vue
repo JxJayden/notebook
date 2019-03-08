@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { getNotes } from '@/utils/note';
+import * as notedb from '@/utils/note-v3';
 import List from '@/components/List.vue';
 
 export default {
@@ -20,13 +20,14 @@ export default {
   components: { List },
   data() {
     return {
-      currentDate: new Date()
+      currentDate: new Date(),
+      notes: []
     };
   },
-  computed: {
-    notes() {
-      return getNotes().sort((a, b) => b.updateTime - a.updateTime);
-    }
+  created() {
+    notedb.list().then(list => {
+      this.notes = list;
+    });
   },
   filters: {
     subtitleDateFormat(date) {

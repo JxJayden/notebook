@@ -4,3 +4,5 @@ export const STORAGE_KEY = {
 };
 
 export const VERSION = 'notebook-v2';
+
+export const DB_NAME = 'notebook-db';
