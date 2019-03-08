@@ -8,8 +8,7 @@
       <List :list="notes"/>
     </main>
     <router-link
-      @click="console.log(1)"
-      tag="div"
+      tag="button"
       class="home__createButton"
       :to="{name: 'edit'}"
     >添加笔记</router-link>
