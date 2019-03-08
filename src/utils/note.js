@@ -1,32 +1,47 @@
 import { STORAGE_KEY, VERSION } from '../constants';
 import storage from './storage';
+// util
+export const getArray = arr => (Array.isArray(arr) ? arr : []);
 
-let cacheNote;
+let cacheNotes;
 
 export const filterDeleteNotes = notes =>
   Array.isArray(notes) ? notes.filter(note => !note.isDelete) : [];
 
-export const getNotes = () => {
+export const getAllNotes = () => {
   try {
-    if (cacheNote && cacheNote.length) return cacheNote;
-    cacheNote = filterDeleteNotes(JSON.parse(storage.read(STORAGE_KEY.NOTES)));
-    return cacheNote;
+    if (cacheNotes && cacheNotes.length) return cacheNotes;
+    return (cacheNotes = getArray(JSON.parse(storage.read(STORAGE_KEY.NOTES))));
   } catch (error) {
     return [];
   }
 };
 
+export const getNotes = () => filterDeleteNotes(getAllNotes());
+
 export const setNotes = notes => {
   if (!notes || !Array.isArray(notes)) return;
   storage.write(STORAGE_KEY.NOTES, JSON.stringify(notes));
-  cacheNote = filterDeleteNotes(notes);
-  return cacheNote;
+  cacheNotes = [...notes];
+  return getNotes();
 };
 
 export const getNoteById = id => getNotes().find(note => note.id === id);
 
+export const addNote = note => {
+  const notes = getAllNotes();
+  notes.unshift({
+    ...note,
+    updateTime: new Date().getTime(),
+    createTime: new Date().getTime(),
+    isDelete: 0
+  });
+  setNotes(notes);
+  return getNotes();
+};
+
 export const updateNote = ({ id, content }) => {
-  const notes = getNotes();
+  const notes = getAllNotes();
   const updateNoteIndex = notes.findIndex(note => note.id === id);
   const originalNote = notes[updateNoteIndex];
   if (updateNoteIndex !== -1) {
@@ -36,31 +51,20 @@ export const updateNote = ({ id, content }) => {
       updateTime: new Date().getTime()
     };
     setNotes(notes);
-    return notes;
+    return getNotes();
   } else {
     return addNote({ id, content });
   }
 };
 
-export const addNote = note => {
-  const notes = getNotes();
-  notes.unshift({
-    ...note,
-    updateTime: new Date().getTime(),
-    createTime: new Date().getTime(),
-    isDelete: 0
-  });
-  setNotes(notes);
-};
-
 export const deleteNote = ({ id }) => {
-  const notes = getNotes();
+  const notes = getAllNotes();
   const deleteNoteIndex = notes.findIndex(note => note.id === id);
-  if (deleteNoteIndex) {
+  if (deleteNoteIndex !== -1) {
     notes[deleteNoteIndex].isDelete = 1;
     setNotes(notes);
   }
-  return notes;
+  return getNotes();
 };
 
 export const checkVersionAndUpdateNote = () => {
