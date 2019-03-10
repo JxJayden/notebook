@@ -14,6 +14,7 @@ notedb
   .ready()
   .then(() => {
     notedb.config();
+    notedb.restoreOldData();
     new Vue({
       router,
       render: h => h(App)
