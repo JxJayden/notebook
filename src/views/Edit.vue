@@ -22,9 +22,8 @@
 </template>
 
 <script>
-import { getNoteById, updateNote, deleteNote } from '@/utils/note';
+import * as notedb from '@/utils/note-v3';
 import uuid from '@/utils/uuid';
-
 export default {
   name: 'Edit',
   data() {
@@ -51,46 +50,30 @@ export default {
   methods: {
     // note control
     revertOldNote(id) {
-      const note = getNoteById(id);
-      if (!note) {
-        this.$router.replace({ name: 'edit' });
-      } else {
-        this.id = id;
-        this.content = note.content;
-        this.oldContent = note.content;
-        this.date = note.updateTime;
-      }
+      notedb
+        .getOneById(id)
+        .then(note => {
+          if (!note) {
+            this.$router.replace({ name: 'edit' });
+          } else {
+            this.id = id;
+            this.content = note.content;
+            this.oldContent = note.content;
+            this.date = note.updateTime;
+          }
+        })
+        .catch(() => {
+          this.$router.replace({ name: 'edit' });
+        });
     },
     genNewNote() {
       this.id = uuid();
       this.date = new Date().getTime();
     },
-    deleteNote(cb) {
-      try {
-        deleteNote({ id: this.id });
-        cb && typeof cb === 'function' && cb();
-      } catch (error) {
-        if (
-          error.name === 'QUOTA_EXCEEDED_ERR' ||
-          error.name === 'NS_ERROR_DOM_QUOTA_REACHED'
-        ) {
-          alert('缓存空间不足，请删减文字～');
-        } else {
-          alert('删除操作失败，请重试');
-        }
-      }
-    },
-    updateNote(cb) {
-      try {
-        if (this.oldContent !== this.content) {
-          this.oldContent = this.content;
-          updateNote({
-            id: this.id,
-            content: this.content
-          });
-        }
-        cb && typeof cb === 'function' && cb();
-      } catch (error) {
+    updateNote() {
+      if (this.oldContent === this.content) return;
+      this.oldContent = this.content;
+      notedb.update(this.id, this.content).catch(error => {
         if (
           error.name === 'QUOTA_EXCEEDED_ERR' ||
           error.name === 'NS_ERROR_DOM_QUOTA_REACHED'
@@ -99,14 +82,42 @@ export default {
         } else {
           alert('数据缓存失败');
         }
-      }
+      });
     },
     // event handler
     handleClickDelete() {
-      this.deleteNote(this.goHome);
+      notedb
+        .remove(this.id)
+        .then(() => {
+          this.goHome();
+        })
+        .catch(error => {
+          if (
+            error.name === 'QUOTA_EXCEEDED_ERR' ||
+            error.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+          ) {
+            alert('缓存空间不足，请删减文字～');
+          } else {
+            alert('删除操作失败，请重试');
+          }
+        });
     },
     handleClickSave() {
-      this.updateNote(this.goHome);
+      notedb
+        .update(this.id, this.content)
+        .then(() => {
+          this.goHome();
+        })
+        .catch(error => {
+          if (
+            error.name === 'QUOTA_EXCEEDED_ERR' ||
+            error.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+          ) {
+            alert('缓存空间不足，请删减文字～');
+          } else {
+            alert('数据缓存失败');
+          }
+        });
     },
     handleTextareaBlur() {
       this.scrollToTop();

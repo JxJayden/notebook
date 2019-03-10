@@ -55,7 +55,8 @@ export default {
       white-space: nowrap;
     }
     &__time {
-      padding-top: 2px;
+      display: block;
+      padding-top: 5px;
       font-size: 15px;
       color: #6d6c79;
     }
