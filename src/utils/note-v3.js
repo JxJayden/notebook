@@ -1,26 +1,29 @@
 import localforage from 'localforage';
-import { DB_NAME } from '../constants';
+import { DB_NAME, VERSION } from '../constants';
+
+// utils
+const getCurrentDate = () => new Date().getTime();
 
 // model
 
 const genNoteModel = () => ({
   content: '',
-  createTime: new Date().getTime(),
-  updateTime: new Date().getTime(),
+  createTime: getCurrentDate(),
+  updateTime: getCurrentDate(),
   isDelete: 0
 });
 
 const genDeleteNoteModel = note => ({
   content: note.content || '',
   createTime: note.createTime,
-  updateTime: new Date().getTime(),
+  updateTime: getCurrentDate(),
   isDelete: 1
 });
 
 const genUpdateNoteModel = (note, content) => ({
   content: content || note.content || '',
   createTime: note.createTime,
-  updateTime: new Date().getTime(),
+  updateTime: getCurrentDate(),
   isDelete: note.isDelete || 0
 });
 
@@ -67,4 +70,25 @@ export const list = () => {
         .filter(note => !note.isDelete)
         .sort((aNote, bNote) => bNote.updateTime - aNote.updateTime);
     });
+};
+
+export const restoreOldData = () => {
+  try {
+    const version = localStorage.getItem('version');
+    if (version === VERSION) return;
+
+    const oldNotes = JSON.parse(localStorage.getItem('notes'));
+    if (!Array.isArray(oldNotes) || !oldNotes.length) return;
+
+    oldNotes.forEach(note => {
+      localforage.setItem(note.id, {
+        content: note.content || '',
+        createTime: note.createTime || getCurrentDate(),
+        updateTime: note.updateTime || getCurrentDate(),
+        isDelete: note.isDelete || 0
+      });
+      localStorage.removeItem('notes');
+      localStorage.setItem('version', VERSION);
+    });
+  } catch (error) {}
 };
