@@ -3,6 +3,6 @@ export const STORAGE_KEY = {
   DRAFT: 'draft'
 };
 
-export const VERSION = 'notebook-v2';
+export const VERSION = 'notebook-v3';
 
 export const DB_NAME = 'notebook-db';

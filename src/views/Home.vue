@@ -4,7 +4,7 @@
       <h1 class="home__header__title">记事本-记录生活</h1>
       <h2 class="home__header__subtitle">{{currentDate | subtitleDateFormat}}</h2>
     </header>
-    <main class="home__main">
+    <main class="home__main" :class="{'is-empty': !notes || !notes.length}">
       <List :list="notes"/>
     </main>
     <router-link tag="button" class="home__createButton" :to="{name: 'edit'}">添加笔记</router-link>
@@ -59,8 +59,12 @@ export default {
     }
   }
   &__main {
-    max-height: calc(100vh - 180px);
+    height: calc(100vh - 186px);
     overflow-y: auto;
+
+    &.is-empty {
+      background: url('../assets/images/empty_bg.jpg') top center/100vw auto no-repeat;
+    }
   }
   &__createButton {
     z-index: 999;

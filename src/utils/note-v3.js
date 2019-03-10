@@ -5,22 +5,22 @@ import { DB_NAME } from '../constants';
 
 const genNoteModel = () => ({
   content: '',
-  createTime: new Date().getDate(),
-  updateTime: new Date().getDate(),
+  createTime: new Date().getTime(),
+  updateTime: new Date().getTime(),
   isDelete: 0
 });
 
 const genDeleteNoteModel = note => ({
   content: note.content || '',
   createTime: note.createTime,
-  updateTime: new Date().getDate(),
+  updateTime: new Date().getTime(),
   isDelete: 1
 });
 
 const genUpdateNoteModel = (note, content) => ({
   content: content || note.content || '',
   createTime: note.createTime,
-  updateTime: new Date().getDate(),
+  updateTime: new Date().getTime(),
   isDelete: note.isDelete || 0
 });
 
