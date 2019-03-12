@@ -15,4 +15,8 @@
 
 ## perf
 * [x] 使用 IndexedDB 代替 localStorage
+* [x] 分离 note 数据库操作到 api 文件夹
+* [x] 在添加笔记的接口中生成 id 而非页面内的函数生成
+* [x] 使用 directive 功能完成 focus
+* [ ] 缓存
 * [ ] 添加笔记标题功能，使用第一行作为标题

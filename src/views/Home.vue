@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import * as notedb from '@/utils/note-v3';
+import noteApi from '@/api';
 import List from '@/components/List.vue';
 
 export default {
@@ -25,7 +25,7 @@ export default {
     };
   },
   created() {
-    notedb.list().then(list => {
+    noteApi.list().then(list => {
       this.notes = list;
     });
   },
@@ -42,56 +42,69 @@ export default {
 <style lang="scss" scoped>
 .home {
   &__header {
-    height: 120px;
     width: 100vw;
-    background: url('../assets/images/header_bg.jpg') left center/cover;
+    height: 120px;
     padding: 43px 15px 0 15px;
+
+    background: url('../assets/images/header_bg.jpg') left center/cover;
     &__title {
       font-size: 24px;
-      color: #fff;
       font-weight: 400;
+
+      color: #fff;
     }
     &__subtitle {
-      margin-top: 5px;
       font-size: 17px;
-      color: #fff;
       font-weight: 400;
+
+      margin-top: 5px;
+
+      color: #fff;
     }
   }
   &__main {
-    height: calc(100vh - 186px);
     overflow-y: auto;
 
+    height: calc(100vh - 186px);
+
     &.is-empty {
-      background: url('../assets/images/empty_bg.jpg') top center/100vw auto no-repeat;
+      background: url('../assets/images/empty_bg.jpg') top center/100vw auto
+        no-repeat;
     }
   }
   &__createButton {
-    z-index: 999;
-    width: 100%;
+    font-size: 17px;
+
     position: fixed;
-    left: 0;
+    z-index: 999;
     right: 0;
     bottom: 0;
-    height: 60px;
-    font-size: 17px;
-    color: #4261e0;
-    background: #fff;
-    box-shadow: 0 -2px 8px 0 rgba(212, 212, 212, 0.2);
-    border-top: 1px solid #eff2f7;
-    cursor: pointer;
-    padding: 20px;
-    text-align: left;
+    left: 0;
+
     display: flex;
     align-items: center;
 
+    width: 100%;
+    height: 60px;
+    padding: 20px;
+
+    cursor: pointer;
+    text-align: left;
+
+    color: #4261e0;
+    border-top: 1px solid #eff2f7;
+    background: #fff;
+    box-shadow: 0 -2px 8px 0 rgba(212, 212, 212, 0.2);
+
     &::before {
-      content: '';
-      background: url('../assets/images/icon_add.png') center center/cover
-        no-repeat;
       width: 16px;
       height: 16px;
       margin-right: 10px;
+
+      content: '';
+
+      background: url('../assets/images/icon_add.png') center center/cover
+        no-repeat;
     }
   }
 }

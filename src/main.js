@@ -1,20 +1,26 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import * as notedb from './utils/note-v3';
-// import localforage from 'localforage';
+import noteApi from './api';
+
 Vue.config.productionTip = false;
+
+Vue.directive('focus', {
+  inserted(el) {
+    el.focus();
+  }
+});
 
 Vue.filter('dateFormat', function(dateTime) {
   if (Number.isNaN(dateTime) || typeof dateTime !== 'number') return '';
   return new Date(dateTime).toLocaleString();
 });
 
-notedb
+noteApi
   .ready()
   .then(() => {
-    notedb.config();
-    notedb.restoreOldData();
+    noteApi.config();
+    noteApi.restoreOldData();
     new Vue({
       router,
       render: h => h(App)

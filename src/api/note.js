@@ -1,4 +1,5 @@
 import localforage from 'localforage';
+import uuid from '../utils/uuid';
 import { DB_NAME, VERSION } from '../constants';
 
 // utils
@@ -36,10 +37,11 @@ export const config = (options = {}) =>
     name: DB_NAME
   });
 
-export const getOneById = id => localforage.getItem(id);
+export const getOneById = id =>
+  localforage.getItem(id).then(data => ({ ...data, id }));
 
-export const add = (id, content) =>
-  localforage.setItem(id, { ...genNoteModel(), content });
+export const add = (id = uuid()) =>
+  localforage.setItem(id, genNoteModel()).then(data => ({ ...data, id }));
 
 export const remove = id =>
   getOneById(id).then(note =>
@@ -49,10 +51,8 @@ export const remove = id =>
   );
 
 export const update = (id, content) =>
-  getOneById(id).then(note =>
-    !note
-      ? add(id, content)
-      : localforage.setItem(id, genUpdateNoteModel(note, content))
+  getOneById(id).then(
+    note => note && localforage.setItem(id, genUpdateNoteModel(note, content))
   );
 
 export const list = () => {
