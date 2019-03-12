@@ -28,11 +28,6 @@ export default {
     noteFormat(content) {
       return content && content.trim().length ? content.trim() : '空白笔记';
     }
-  },
-  methods: {
-    deleteNote(note) {
-      this.$emit('delete', note);
-    }
   }
 };
 </script>
@@ -42,22 +37,31 @@ export default {
   padding: 0 15px;
   .item {
     height: 77px;
-    border-bottom: 1px solid #eff2f7;
     padding-top: 20px;
+
     cursor: pointer;
+
+    border-bottom: 1px solid #eff2f7;
     &__title {
       font-size: 17px;
-      color: #35343d;
       font-weight: 500;
-      max-width: 80vw;
+
       overflow: hidden;
-      text-overflow: ellipsis;
+
+      max-width: 80vw;
+
       white-space: nowrap;
+      text-overflow: ellipsis;
+
+      color: #35343d;
     }
     &__time {
-      display: block;
-      padding-top: 5px;
       font-size: 15px;
+
+      display: block;
+
+      padding-top: 5px;
+
       color: #6d6c79;
     }
   }
